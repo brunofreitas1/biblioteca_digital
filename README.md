@@ -18,4 +18,85 @@ Para bibliotecas públicas ou acadêmicas que precisam de uma solução eficient
 
 ## Diagrama de casos de uso
 
-![Product Backlog - Biblioteca para Todos](arquivos/diagrama_casos_de_uso.jpeg)
+![Diagrama de casos de uso](arquivos/diagrama_casos_de_uso.jpeg)
+
+## Descrição de Fluxos de Eventos
+
+# Nome: Empréstimo de Livro
+
+# Fluxo de Eventos Normal
+
+O cliente insere seu ID.
+
+O programa analisa o ID e verifica se ele é aceitável.
+
+O programa solicita os nomes dos livros.
+
+O cliente informa o nome do livro.
+
+O programa analisa o nome do livro e verifica se ele é aceitável.
+
+O programa solicita a quantidades de livros que o cliente deseja.
+
+O cliente informa a quantidade de livros que ele deseja fazer o empréstimo.
+
+O programa analisa a quantidade de livros e verifica se ele é aceitável.
+
+O cliente seleciona a opção empréstimo de livro.
+
+O programa realiza uma requisição para que os livros escolhidos sejam enviados para o cliente.
+
+Os livros são liberados para o cliente.
+
+# Fluxo de Eventos de Exceção
+
+2a – O ID não é aceitável: Seja porque os caracteres informados são incompatíveis ou aquele ID não foi cadastrado, será envia uma mensagem de erro, com a mensagem “ID incorreto” ou “ID não cadastrado”, e retorna ao passo 1.
+
+5a – O nome não é aceitável: Se o nome informado esteja incorreto, será enviado a mensagem “Livro não encontrado”, e retorna ao passo 4.
+
+8a – A quantidade não é aceitável: Se a quantidade de livros passar do limite, será enviado uma mensagem “Quantidade excedida”, o cliente retorna ao passo 7 e reduz a quantidade de livros.
+
+10a – Empréstimo não autorizado: Uma mensagem de erro é enviada ao cliente, “erro ao realizar empréstimo”, e retorna à opção 9.
+
+1 a 9 – Cancelamento: O cliente pode cancelar o empréstimo dos livros, enquanto o empréstimo não for autorizado pelo programa.
+
+# Nome: Devolver Livro
+
+# Fluxo de Eventos Normal
+
+O cliente insere seu ID.
+
+O programa analisa o ID e verifica se ele é aceitável.
+
+O cliente informa a quantidade de livros que ele deseja devolver.
+
+O programa analisa se quantidade de livros a serem devolvidos e verifica se ele é aceitável.
+
+O programa solicita os IDs dos livros a serem devolvidos.
+
+O cliente informa os IDs dos livros.
+
+O programa analisa os IDs dos livros e verifica se eles são aceitáveis.
+
+O cliente seleciona a opção devolver livros.
+
+O programa realiza uma requisição para que os livros que o cliente deseja devolver sejam enviados de volta para a biblioteca.
+
+Os livros são liberados para devolução.
+
+# Fluxo de Eventos de Exceção
+
+2a – O ID do cliente não é aceitável: Seja porque os caracteres informados são incompatíveis ou aquele ID não foi cadastrado, será envia uma mensagem de erro, com a mensagem “ID incorreto” ou “ID não cadastrado”, e retorna ao passo 1.
+
+4a – A quantidade não é aceitável: Se a quantidade de livros passar do limite, será enviado uma mensagem “Quantidade excedida”, o cliente retorna ao passo 3 e reduz a quantidade de livros.
+
+7a – O ID do livro não é aceitável: Seja porque os caracteres informados são incompatíveis ou aquele ID não foi cadastrado, será envia uma mensagem de erro, com a mensagem “ID do livro incorreto” ou “ID do livro não cadastrado”, e retorna ao passo 6.
+
+9a – Devolução não autorizado: Uma mensagem de erro é enviada ao cliente, “erro ao realizar Devolução”, e retorna à opção 8.
+
+1 a 8 – Cancelamento: O cliente pode cancelar a devolução dos livros, enquanto a devolução não for autorizado pelo programa.
+
+## Diagrama de atividades
+
+![Diagrama de Atividades 1](arquivos/diagrama_casos_de_uso.jpeg)
+![Diagrama de Atividades 2](arquivos/diagrama_casos_de_uso.jpeg)

@@ -98,5 +98,5 @@ Os livros são liberados para devolução.
 
 ## Diagrama de atividades
 
-![Diagrama de Atividades 1](arquivos/diagrama_casos_de_uso.jpeg)
-![Diagrama de Atividades 2](arquivos/diagrama_casos_de_uso.jpeg)
+![Diagrama de Atividades 1](arquivos/diagrama_atividades_1.jpeg)\
+![Diagrama de Atividades 2](arquivos/diagrama_atividades_2.jpeg)

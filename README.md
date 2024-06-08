@@ -22,9 +22,9 @@ Para bibliotecas públicas ou acadêmicas que precisam de uma solução eficient
 
 ## Descrição de Fluxos de Eventos
 
-# Nome: Empréstimo de Livro
+### Nome: Empréstimo de Livro
 
-# Fluxo de Eventos Normal
+### Fluxo de Eventos Normal
 
 O cliente insere seu ID.
 
@@ -48,7 +48,7 @@ O programa realiza uma requisição para que os livros escolhidos sejam enviados
 
 Os livros são liberados para o cliente.
 
-# Fluxo de Eventos de Exceção
+### Fluxo de Eventos de Exceção
 
 2a – O ID não é aceitável: Seja porque os caracteres informados são incompatíveis ou aquele ID não foi cadastrado, será envia uma mensagem de erro, com a mensagem “ID incorreto” ou “ID não cadastrado”, e retorna ao passo 1.
 
@@ -60,9 +60,9 @@ Os livros são liberados para o cliente.
 
 1 a 9 – Cancelamento: O cliente pode cancelar o empréstimo dos livros, enquanto o empréstimo não for autorizado pelo programa.
 
-# Nome: Devolver Livro
+### Nome: Devolver Livro
 
-# Fluxo de Eventos Normal
+### Fluxo de Eventos Normal
 
 O cliente insere seu ID.
 
@@ -84,7 +84,7 @@ O programa realiza uma requisição para que os livros que o cliente deseja devo
 
 Os livros são liberados para devolução.
 
-# Fluxo de Eventos de Exceção
+### Fluxo de Eventos de Exceção
 
 2a – O ID do cliente não é aceitável: Seja porque os caracteres informados são incompatíveis ou aquele ID não foi cadastrado, será envia uma mensagem de erro, com a mensagem “ID incorreto” ou “ID não cadastrado”, e retorna ao passo 1.
 

@@ -1,2 +1,1 @@
-2;Senhor dos Aneis;Robertinho;2000;18;1
-2;Senhor dos Aneis;Robertinho;2000;18;0
+25298;Senhor dos aneis;robinho;2000;18;0

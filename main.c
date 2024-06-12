@@ -5,6 +5,15 @@
 #include <time.h>
 #include <conio.h>
 
+// Definir códigos de cores ANSI
+#define RESET_COLOR "\033[0m"
+#define RED_COLOR "\033[31m"
+#define GREEN_COLOR "\033[32m"
+#define YELLOW_COLOR "\033[33m"
+#define BLUE_COLOR "\033[34m"
+#define MAGENTA_COLOR "\033[35m"
+#define CYAN_COLOR "\033[36m"
+
 // Estrutura para representar um livro
 struct Livro
 {
@@ -19,7 +28,7 @@ struct Livro
 // Estrutura para representar um leitor
 struct Leitor
 {
-    int id;
+    int id_cliente;
     int cpf;
     char nome[100];
     char endereco[100];
@@ -35,45 +44,67 @@ struct Emprestimo
     time_t dataEmprestimo;
 };
 
-// Função para limpar o buffer de entrada
-void limparBuffer()
+// Função para exibir mensagens coloridas
+void exibirMensagem(const char *mensagem, const char *cor)
 {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
+    printf("%s%s%s\n", cor, mensagem, RESET_COLOR);
 }
 
-// Função para autenticar um usuário
-bool autenticarUsuario(const char *username, const char *password)
+// Função para gerar um novo ID de leitor
+int gerarNovoIdLeitor()
 {
-    FILE *file = fopen("usuarios.txt", "r");
-    if (file != NULL)
+    FILE *file = fopen("leitores.txt", "r");
+    if (file == NULL)
     {
-        char linha[256];
-        char storedUsername[100], storedPassword[100];
-        while (fgets(linha, sizeof(linha), file) != NULL)
+        return 1; // Primeiro ID
+    }
+
+    int ultimoId = 0;
+    char linha[256];
+    while (fgets(linha, sizeof(linha), file) != NULL)
+    {
+        int id;
+        sscanf(linha, "%d", &id);
+        if (id > ultimoId)
         {
-            sscanf(linha, "%99[^;];%99[^\n]", storedUsername, storedPassword);
-            if (strcmp(username, storedUsername) == 0 && strcmp(password, storedPassword) == 0)
-            {
-                fclose(file);
-                return true;
-            }
+            ultimoId = id;
         }
-        fclose(file);
     }
-    else
+
+    fclose(file);
+    return ultimoId + 1;
+}
+
+// Função para gerar um novo ID de livro
+int gerarNovoIdLivro()
+{
+    FILE *file = fopen("livros.txt", "r");
+    if (file == NULL)
     {
-        printf("Erro ao abrir o arquivo de usuários.\n");
+        return 1; // Primeiro ID
     }
-    return false;
+
+    int ultimoId = 0;
+    char linha[256];
+    while (fgets(linha, sizeof(linha), file) != NULL)
+    {
+        int id;
+        sscanf(linha, "%d", &id);
+        if (id > ultimoId)
+        {
+            ultimoId = id;
+        }
+    }
+
+    fclose(file);
+    return ultimoId + 1;
 }
 
 // Função para cadastrar um novo leitor
 struct Leitor cadastrarLeitor(int cpf, const char *nome, const char *endereco, int telefone, int idade)
 {
     struct Leitor leitor;
-    leitor.id = rand();
+    leitor.id_cliente = gerarNovoIdLeitor();
     leitor.cpf = cpf;
     strncpy(leitor.nome, nome, sizeof(leitor.nome) - 1);
     strncpy(leitor.endereco, endereco, sizeof(leitor.endereco) - 1);
@@ -83,12 +114,13 @@ struct Leitor cadastrarLeitor(int cpf, const char *nome, const char *endereco, i
     FILE *file = fopen("leitores.txt", "a");
     if (file != NULL)
     {
-        fprintf(file, "%d;%d;%s;%s;%d;%d\n", leitor.id, leitor.cpf, leitor.nome, leitor.endereco, leitor.telefone, leitor.idade);
+        fprintf(file, "%d;%d;%s;%s;%d;%d\n", leitor.id_cliente, leitor.cpf,
+                leitor.nome, leitor.endereco, leitor.telefone, leitor.idade);
         fclose(file);
     }
     else
     {
-        printf("Erro ao abrir o arquivo de leitores.\n");
+        exibirMensagem("Erro ao abrir o arquivo de leitores.", RED_COLOR);
     }
 
     return leitor;
@@ -98,7 +130,7 @@ struct Leitor cadastrarLeitor(int cpf, const char *nome, const char *endereco, i
 void cadastrarLivro(const char *titulo, const char *autor, int anoPublicacao, int classificacao)
 {
     struct Livro livro;
-    livro.id = rand();
+    livro.id = gerarNovoIdLivro();
     strncpy(livro.titulo, titulo, sizeof(livro.titulo) - 1);
     strncpy(livro.autor, autor, sizeof(livro.autor) - 1);
     livro.anoPublicacao = anoPublicacao;
@@ -108,13 +140,22 @@ void cadastrarLivro(const char *titulo, const char *autor, int anoPublicacao, in
     FILE *file = fopen("livros.txt", "a");
     if (file != NULL)
     {
-        fprintf(file, "%d;%s;%s;%d;%d;%d\n", livro.id, livro.titulo, livro.autor, livro.anoPublicacao, livro.classificacao, livro.disponibilidade);
+        fprintf(file, "%d;%s;%s;%d;%d;%d\n", livro.id, livro.titulo, livro.autor,
+                livro.anoPublicacao, livro.classificacao, livro.disponibilidade);
         fclose(file);
     }
     else
     {
-        printf("Erro ao abrir o arquivo de livros.\n");
+        exibirMensagem("Erro ao abrir o arquivo de livros.", RED_COLOR);
     }
+}
+
+// Função para limpar o buffer de entrada
+void limparBuffer()
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 }
 
 // Função para listar todos os livros cadastrados
@@ -134,7 +175,7 @@ void listarLivros()
     }
     else
     {
-        printf("Erro ao abrir o arquivo de livros.\n");
+        exibirMensagem("Erro ao abrir o arquivo de livros.", RED_COLOR);
     }
 }
 
@@ -155,7 +196,7 @@ void listarLeitores()
     }
     else
     {
-        printf("Erro ao abrir o arquivo de leitores.\n");
+        exibirMensagem("Erro ao abrir o arquivo de leitores.", RED_COLOR);
     }
 }
 
@@ -169,8 +210,11 @@ void buscarLivro(const char *titulo)
         printf("==================\n");
         struct Livro livro;
         bool encontrado = false;
-        while (fscanf(file, "%d;%99[^;];%99[^;];%d;%d;%d\n", &livro.id, livro.titulo, livro.autor, &livro.anoPublicacao, &livro.classificacao, &livro.disponibilidade) == 6)
+        char linha[256];
+        while (fgets(linha, sizeof(linha), file) != NULL)
         {
+            sscanf(linha, "%d;%99[^;];%99[^;];%d;%d;%d\n", &livro.id, livro.titulo, livro.autor,
+                   &livro.anoPublicacao, &livro.classificacao, &livro.disponibilidade);
             if (strcmp(livro.titulo, titulo) == 0)
             {
                 encontrado = true;
@@ -179,107 +223,82 @@ void buscarLivro(const char *titulo)
                 printf("Autor: %s\n", livro.autor);
                 printf("Ano de publicacao: %d\n", livro.anoPublicacao);
                 printf("Classificacao: %d\n", livro.classificacao);
-                printf("Disponibilidade: %s\n", livro.disponibilidade ? "Disponivel" : "Indisponivel");
+                printf("Disponibilidade: %s\n",
+                       livro.disponibilidade ? "Disponivel" : "Indisponivel");
                 printf("\n");
             }
         }
         if (!encontrado)
         {
-            printf("Livro nao encontrado.\n");
+            exibirMensagem("Livro não encontrado.", RED_COLOR);
         }
         fclose(file);
     }
     else
     {
-        printf("Erro ao abrir o arquivo de livros.\n");
+        exibirMensagem("Erro ao abrir o arquivo de livros.", RED_COLOR);
     }
 }
 
 // Função para emprestar um livro para um leitor
 void emprestarLivro(int id_livro, int id_cliente)
 {
-    FILE *livrosFile = fopen("livros.txt", "r");
-    FILE *tempFile = fopen("temp.txt", "w");
-    FILE *emprestimosFile = fopen("emprestimos.txt", "a");
-    if (livrosFile == NULL || tempFile == NULL || emprestimosFile == NULL)
+    // Abrir arquivo de livros para leitura e escrita
+    FILE *file = fopen("livros.txt", "r+");
+    if (file == NULL)
     {
-        printf("Erro ao abrir o arquivo.\n");
-        if (livrosFile)
-            fclose(livrosFile);
-        if (tempFile)
-            fclose(tempFile);
-        if (emprestimosFile)
-            fclose(emprestimosFile);
+        exibirMensagem("Erro ao abrir o arquivo de livros.", RED_COLOR);
+        return;
+    }
+
+    // Abrir arquivo de empréstimos para escrita
+    FILE *emprestimos_file = fopen("emprestimos.txt", "a");
+    if (emprestimos_file == NULL)
+    {
+        exibirMensagem("Erro ao abrir o arquivo de empréstimos.", RED_COLOR);
+        fclose(file);
         return;
     }
 
     struct Livro livro;
+    char linha[256];
     bool livroEncontrado = false;
-    while (fscanf(livrosFile, "%d;%99[^;];%99[^;];%d;%d;%d\n", &livro.id, livro.titulo, livro.autor, &livro.anoPublicacao, &livro.classificacao, &livro.disponibilidade) == 6)
+    bool livroDisponivel = false;
+    long posicao = 0;
+
+    while (fgets(linha, sizeof(linha), file) != NULL)
     {
+        sscanf(linha, "%d;%99[^;];%99[^;];%d;%d;%d\n", &livro.id, livro.titulo, livro.autor,
+               &livro.anoPublicacao, &livro.classificacao, &livro.disponibilidade);
         if (livro.id == id_livro)
         {
             livroEncontrado = true;
-            if (!livro.disponibilidade)
+            if (livro.disponibilidade)
             {
-                printf("Livro não está disponível para empréstimo.\n");
-                fclose(livrosFile);
-                fclose(tempFile);
-                fclose(emprestimosFile);
-                remove("temp.txt");
-                return;
+                livroDisponivel = true;
+                livro.disponibilidade = false;
+                fseek(file, posicao, SEEK_SET);
+                fprintf(file, "%d;%s;%s;%d;%d;%d\n", livro.id, livro.titulo, livro.autor,
+                        livro.anoPublicacao, livro.classificacao, livro.disponibilidade);
+                break;
             }
-            livro.disponibilidade = false;
         }
-        fprintf(tempFile, "%d;%s;%s;%d;%d;%d\n", livro.id, livro.titulo, livro.autor, livro.anoPublicacao, livro.classificacao, livro.disponibilidade);
+        posicao = ftell(file);
     }
-
-    fclose(livrosFile);
-    fclose(tempFile);
 
     if (!livroEncontrado)
     {
-        printf("Livro não encontrado.\n");
-        fclose(emprestimosFile);
-        remove("temp.txt");
+        exibirMensagem("Livro não encontrado.", RED_COLOR);
+        fclose(file);
+        fclose(emprestimos_file);
         return;
     }
 
-    struct Leitor leitor;
-    FILE *leitoresFile = fopen("leitores.txt", "r");
-    if (leitoresFile == NULL)
+    if (!livroDisponivel)
     {
-        printf("Erro ao abrir o arquivo de leitores.\n");
-        fclose(emprestimosFile);
-        remove("temp.txt");
-        return;
-    }
-
-    bool leitorEncontrado = false;
-    while (fscanf(leitoresFile, "%d;%d;%99[^;];%99[^;];%d;%d\n", &leitor.id, &leitor.cpf, leitor.nome, leitor.endereco, &leitor.telefone, &leitor.idade) == 6)
-    {
-        if (leitor.id == id_cliente)
-        {
-            leitorEncontrado = true;
-            break;
-        }
-    }
-
-    fclose(leitoresFile);
-
-    if (!leitorEncontrado)
-    {
-        printf("Leitor não encontrado.\n");
-        fclose(emprestimosFile);
-        remove("temp.txt");
-        return;
-    }
-
-    if (leitor.idade < livro.classificacao)
-    {
-        printf("Leitor não tem idade suficiente para pegar este livro emprestado.\n");
-        fclose(emprestimosFile);
-        remove("temp.txt");
+        exibirMensagem("Livro indisponível.", RED_COLOR);
+        fclose(file);
+        fclose(emprestimos_file);
         return;
     }
 
@@ -287,73 +306,134 @@ void emprestarLivro(int id_livro, int id_cliente)
     emprestimo.id_leitor = id_cliente;
     emprestimo.id_livro = id_livro;
     emprestimo.dataEmprestimo = time(NULL);
-    fprintf(emprestimosFile, "%d;%d;%ld\n", emprestimo.id_leitor, emprestimo.id_livro, emprestimo.dataEmprestimo);
 
-    fclose(emprestimosFile);
+    fprintf(emprestimos_file, "%d;%d;%ld\n", emprestimo.id_leitor, emprestimo.id_livro,
+            emprestimo.dataEmprestimo);
+    exibirMensagem("Empréstimo realizado com sucesso!", GREEN_COLOR);
 
-    // Renomear o arquivo temporário para substituir o original
-    remove("livros.txt");
-    rename("temp.txt", "livros.txt");
-
-    printf("Empréstimo realizado com sucesso!\n");
+    fclose(file);
+    fclose(emprestimos_file);
 }
 
-// Função para calcular a diferença em dias entre duas datas
-int diferencaDias(time_t dataInicio, time_t dataFim)
+// Função para devolver um livro
+void devolverLivro(int id_livro, int id_cliente)
 {
-    return (int)difftime(dataFim, dataInicio) / (60 * 60 * 24);
-}
+    FILE *livros_file = fopen("livros.txt", "r+");
+    FILE *emprestimos_file = fopen("emprestimos.txt", "r");
+    FILE *temp_file = fopen("temp.txt", "w");
 
-// Função para central de avisos
-void centralAvisos()
-{
-    FILE *emprestimosFile = fopen("emprestimos.txt", "r");
-    if (emprestimosFile == NULL)
+    if (livros_file == NULL || emprestimos_file == NULL || temp_file == NULL)
     {
-        printf("Erro ao abrir o arquivo de empréstimos.\n");
+        exibirMensagem("Erro ao abrir os arquivos.", RED_COLOR);
+        if (livros_file != NULL)
+            fclose(livros_file);
+        if (emprestimos_file != NULL)
+            fclose(emprestimos_file);
+        if (temp_file != NULL)
+            fclose(temp_file);
         return;
     }
 
-    time_t hoje = time(NULL);
+    struct Livro livro;
     struct Emprestimo emprestimo;
-    while (fscanf(emprestimosFile, "%d;%d;%ld\n", &emprestimo.id_leitor, &emprestimo.id_livro, &emprestimo.dataEmprestimo) == 3)
+    char linha[256];
+    bool emprestimoEncontrado = false;
+    long posicao = 0;
+
+    // Verificar e atualizar a disponibilidade do livro
+    while (fgets(linha, sizeof(linha), livros_file) != NULL)
     {
-        int diasEmprestimo = diferencaDias(emprestimo.dataEmprestimo, hoje);
-        if (diasEmprestimo > 90)
+        sscanf(linha, "%d;%99[^;];%99[^;];%d;%d;%d\n", &livro.id, livro.titulo, livro.autor,
+               &livro.anoPublicacao, &livro.classificacao, &livro.disponibilidade);
+        if (livro.id == id_livro)
         {
-            int diasAtraso = diasEmprestimo - 90;
-            double multa = diasAtraso * 0.25;
-            printf("Leitor ID %d está com o livro ID %d atrasado %d dias. Multa: R$%.2f\n", emprestimo.id_leitor, emprestimo.id_livro, diasAtraso, multa);
+            livro.disponibilidade = true;
+            fseek(livros_file, posicao, SEEK_SET);
+            fprintf(livros_file, "%d;%s;%s;%d;%d;%d\n", livro.id, livro.titulo, livro.autor,
+                    livro.anoPublicacao, livro.classificacao, livro.disponibilidade);
         }
-        else if (diasEmprestimo >= 80)
+        posicao = ftell(livros_file);
+    }
+
+    // Verificar e remover o empréstimo
+    while (fgets(linha, sizeof(linha), emprestimos_file) != NULL)
+    {
+        sscanf(linha, "%d;%d;%ld\n", &emprestimo.id_leitor, &emprestimo.id_livro, &emprestimo.dataEmprestimo);
+        if (emprestimo.id_leitor == id_cliente && emprestimo.id_livro == id_livro)
         {
-            printf("Leitor ID %d está com o livro ID %d próximo do prazo de devolução (faltam %d dias).\n", emprestimo.id_leitor, emprestimo.id_livro, 90 - diasEmprestimo);
+            emprestimoEncontrado = true;
+            time_t dataAtual = time(NULL);
+            double diffDias = difftime(dataAtual, emprestimo.dataEmprestimo) / (60 * 60 * 24);
+            if (diffDias > 90)
+            {
+                double multa = (diffDias - 90) * 0.25;
+                printf("Livro devolvido com atraso. Multa: R$ %.2f\n", multa);
+            }
+        }
+        else
+        {
+            fprintf(temp_file, "%d;%d;%ld\n", emprestimo.id_leitor, emprestimo.id_livro, emprestimo.dataEmprestimo);
         }
     }
 
-    fclose(emprestimosFile);
+    fclose(livros_file);
+    fclose(emprestimos_file);
+    fclose(temp_file);
+
+    remove("emprestimos.txt");
+    rename("temp.txt", "emprestimos.txt");
+
+    if (emprestimoEncontrado)
+    {
+        exibirMensagem("Livro devolvido com sucesso!", GREEN_COLOR);
+    }
+    else
+    {
+        exibirMensagem("Empréstimo não encontrado.", RED_COLOR);
+    }
 }
 
-int main()
+// Função para exibir avisos de prazos de devolução e multas
+void exibirAvisos()
 {
-    srand(time(NULL)); // Inicializar o gerador de números aleatórios
-
-    char username[100], password[100];
-    int i = 0;
-    printf("Username: ");
-    scanf("%s", username);
-    limparBuffer();
-
-    printf("Password: ");
-    while (1)
+    FILE *emprestimos_file = fopen("emprestimos.txt", "r");
+    if (emprestimos_file == NULL)
     {
-        char c = getch();
-        if (c == '\r') // Enter
+        return;
+    }
+
+    struct Emprestimo emprestimo;
+    char linha[256];
+    time_t dataAtual = time(NULL);
+
+    while (fgets(linha, sizeof(linha), emprestimos_file) != NULL)
+    {
+        sscanf(linha, "%d;%d;%ld\n", &emprestimo.id_leitor, &emprestimo.id_livro, &emprestimo.dataEmprestimo);
+        double diffDias = difftime(dataAtual, emprestimo.dataEmprestimo) / (60 * 60 * 24);
+        if (diffDias > 85 && diffDias <= 90)
         {
-            password[i] = '\0';
-            break;
+            printf(YELLOW_COLOR "Aviso: O leitor %d deve devolver o livro %d em breve.\n" RESET_COLOR,
+                   emprestimo.id_leitor, emprestimo.id_livro);
         }
-        else if (c == '\b') // Backspace
+        else if (diffDias > 90)
+        {
+            double multa = (diffDias - 90) * 0.25;
+            printf(RED_COLOR "Aviso: O leitor %d está em atraso com o livro %d. Multa acumulada: R$ %.2f\n" RESET_COLOR,
+                   emprestimo.id_leitor, emprestimo.id_livro, multa);
+        }
+    }
+
+    fclose(emprestimos_file);
+}
+
+// Função para ler a senha do usuário sem exibir os caracteres
+void lerSenha(char *senha, int max_len)
+{
+    int i = 0;
+    char c;
+    while ((c = getch()) != '\r' && i < max_len - 1)
+    {
+        if (c == '\b')
         {
             if (i > 0)
             {
@@ -363,37 +443,81 @@ int main()
         }
         else
         {
-            password[i++] = c;
+            senha[i++] = c;
             printf("*");
         }
     }
+    senha[i] = '\0';
     printf("\n");
+}
 
-    if (!autenticarUsuario(username, password))
+// Função para realizar login
+bool realizarLogin()
+{
+    char usuario[50];
+    char senha[50];
+    bool autenticado = false;
+
+    printf("Usuario: ");
+    scanf("%49s", usuario);
+    limparBuffer();
+    printf("Senha: ");
+    lerSenha(senha, 50);
+
+    FILE *file = fopen("usuarios.txt", "r");
+    if (file != NULL)
     {
-        printf("Username ou senha incorretos.\n");
-        return 1;
+        char linha[100];
+        char usuarioFile[50], senhaFile[50];
+        while (fgets(linha, sizeof(linha), file) != NULL)
+        {
+            sscanf(linha, "%49[^;];%49[^\n]", usuarioFile, senhaFile);
+            if (strcmp(usuario, usuarioFile) == 0 && strcmp(senha, senhaFile) == 0)
+            {
+                autenticado = true;
+                break;
+            }
+        }
+        fclose(file);
     }
 
-    printf("Login realizado com sucesso!\n");
+    if (!autenticado)
+    {
+        exibirMensagem("Usuário ou senha inválidos.", RED_COLOR);
+    }
+
+    return autenticado;
+}
+
+// Função principal
+int main()
+{
+    if (!realizarLogin())
+    {
+        return 0;
+    }
 
     int opcao;
+
     do
     {
-        centralAvisos();
+        exibirAvisos();
 
         printf("\nBIBLIOTECA VIRTUAL\n");
+        printf("==================\n");
         printf("1 - Cadastrar livro\n");
         printf("2 - Cadastrar leitor\n");
         printf("3 - Listar livros\n");
         printf("4 - Listar leitores\n");
         printf("5 - Emprestar Livro\n");
-        printf("6 - Buscar Livro\n");
-        printf("7 - Sair\n");
+        printf("6 - Devolver Livro\n");
+        printf("7 - Buscar Livro\n");
+        printf("8 - Sair\n");
         printf("Escolha uma opcao: ");
 
+        // Ler a opção do usuário
         scanf("%d", &opcao);
-        limparBuffer();
+        limparBuffer(); // Limpar o buffer de entrada
 
         switch (opcao)
         {
@@ -404,19 +528,22 @@ int main()
             int anoPublicacao;
             int classificacao;
 
+            // Solicitar informações do livro ao usuário
             printf("Titulo do livro: ");
             fgets(titulo, sizeof(titulo), stdin);
-            titulo[strcspn(titulo, "\n")] = '\0';
+            titulo[strcspn(titulo, "\n")] = '\0'; // Remover a nova linha
             printf("Autor do livro: ");
             fgets(autor, sizeof(autor), stdin);
-            autor[strcspn(autor, "\n")] = '\0';
+            autor[strcspn(autor, "\n")] = '\0'; // Remover a nova linha
             printf("Ano de publicacao: ");
             scanf("%d", &anoPublicacao);
             printf("Classificacao: ");
             scanf("%d", &classificacao);
-            limparBuffer();
+            limparBuffer(); // Limpar o buffer de entrada
 
+            // Cadastrar o livro
             cadastrarLivro(titulo, autor, anoPublicacao, classificacao);
+            exibirMensagem("Livro cadastrado com sucesso!", GREEN_COLOR);
             break;
         }
         case 2:
@@ -424,67 +551,71 @@ int main()
             int cpf, telefone, idade;
             char nome[100], endereco[100];
 
+            // Solicitar informações do leitor ao usuário
             printf("CPF do cliente: ");
             scanf("%d", &cpf);
             limparBuffer();
             printf("Nome do cliente: ");
             fgets(nome, sizeof(nome), stdin);
-            nome[strcspn(nome, "\n")] = '\0';
+            nome[strcspn(nome, "\n")] = '\0'; // Remover a nova linha
             printf("Endereco do cliente: ");
             fgets(endereco, sizeof(endereco), stdin);
-            endereco[strcspn(endereco, "\n")] = '\0';
+            endereco[strcspn(endereco, "\n")] = '\0'; // Remover a nova linha
             printf("Telefone do cliente: ");
             scanf("%d", &telefone);
-            limparBuffer();
             printf("Idade do cliente: ");
             scanf("%d", &idade);
-            limparBuffer();
+            limparBuffer(); // Limpar o buffer de entrada
 
+            // Cadastrar o leitor
             cadastrarLeitor(cpf, nome, endereco, telefone, idade);
-            printf("Leitor cadastrado com sucesso!\n");
+            exibirMensagem("Leitor cadastrado com sucesso!", GREEN_COLOR);
             break;
         }
         case 3:
-        {
             listarLivros();
             break;
-        }
         case 4:
-        {
             listarLeitores();
             break;
-        }
         case 5:
         {
-            int id_cliente, id_livro;
+            int id_livro, id_cliente;
+            printf("ID do livro: ");
+            scanf("%d", &id_livro);
             printf("ID do cliente: ");
             scanf("%d", &id_cliente);
-            limparBuffer();
-            printf("ID do livro a ser emprestado: ");
-            scanf("%d", &id_livro);
             limparBuffer();
             emprestarLivro(id_livro, id_cliente);
             break;
         }
         case 6:
         {
-            char titulo[100];
-            printf("Digite o titulo do livro: ");
-            fgets(titulo, sizeof(titulo), stdin);
-            titulo[strcspn(titulo, "\n")] = '\0';
-            buscarLivro(titulo);
+            int id_livro, id_cliente;
+            printf("ID do livro: ");
+            scanf("%d", &id_livro);
+            printf("ID do cliente: ");
+            scanf("%d", &id_cliente);
+            limparBuffer();
+            devolverLivro(id_livro, id_cliente);
             break;
         }
         case 7:
         {
-            printf("Saindo da biblioteca virtual. Ate logo!\n");
+            char titulo[100];
+            printf("Titulo do livro: ");
+            fgets(titulo, sizeof(titulo), stdin);
+            titulo[strcspn(titulo, "\n")] = '\0'; // Remover a nova linha
+            buscarLivro(titulo);
             break;
         }
+        case 8:
+            exibirMensagem("Saindo do sistema...", CYAN_COLOR);
+            break;
         default:
-            printf("Opcao invalida. Tente novamente.\n");
-            break;
+            exibirMensagem("Opcao invalida. Tente novamente.", RED_COLOR);
         }
-    } while (opcao != 7);
+    } while (opcao != 8);
 
     return 0;
 }

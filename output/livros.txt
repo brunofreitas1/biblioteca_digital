@@ -1,1 +1,1 @@
-1;a arte da guerra;sun tzu;2019;17;0
+11;a arte da guerra;sun tzu;2019;17;1

@@ -1,1 +1,2 @@
-11;a arte da guerra;sun tzu;2019;17;1
+11;a arte da guerra;sun tzu;2019;17;0
+;Pai Rico, Pai Pobre;Robert Kiyosaki;2017;10;1

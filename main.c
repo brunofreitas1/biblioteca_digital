@@ -40,13 +40,12 @@ bool validarCPF(const char *cpf)
     return true;
 }
 
-// Função para validar telefone (somente números e deve ter pelo menos 8 dígitos)
+// Função para validar telefone (somente números e deve ter pelo menos 11 dígitos)
 bool validarTelefone(const char *telefone)
 {
-    int len = strlen(telefone);
-    if (len < 8)
+    if (strlen(telefone) != 11)
         return false;
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < 11; i++)
     {
         if (!isdigit(telefone[i]))
             return false;
@@ -120,10 +119,10 @@ bool verificarCredenciais(const char *usuario, const char *senha)
 struct Leitor
 {
     int id;
-    int cpf;
+    char cpf[12];
     char nome[100];
     char endereco[100];
-    int telefone;
+    char telefone[12];
     int idade;
 };
 
@@ -163,7 +162,7 @@ int gerarID(const char *tipo)
 }
 
 // Função para cadastrar um leitor
-void cadastrarLeitor(int cpf, const char *nome, const char *endereco, int telefone, int idade)
+void cadastrarLeitor(const char *cpf, const char *nome, const char *endereco, const char *telefone, int idade)
 {
     FILE *file = fopen("leitores.txt", "a");
     if (file == NULL)
@@ -174,13 +173,13 @@ void cadastrarLeitor(int cpf, const char *nome, const char *endereco, int telefo
 
     struct Leitor leitor;
     leitor.id = gerarID("leitor");
-    leitor.cpf = cpf;
+    strcpy(leitor.cpf, cpf);
     strcpy(leitor.nome, nome);
     strcpy(leitor.endereco, endereco);
-    leitor.telefone = telefone;
+    strcpy(leitor.telefone, telefone);
     leitor.idade = idade;
 
-    fprintf(file, "%d;%d;%s;%s;%d;%d\n", leitor.id, leitor.cpf, leitor.nome, leitor.endereco, leitor.telefone, leitor.idade);
+    fprintf(file, "%d;%s;%s;%s;%s;%d\n", leitor.id, leitor.cpf, leitor.nome, leitor.endereco, leitor.telefone, leitor.idade);
     fclose(file);
 }
 
@@ -609,18 +608,20 @@ int main()
         {
         case 1:
         {
-            int cpf, telefone, idade;
+            char cpf[12];
+            char telefone[12];
+            int idade;
             char nome[100], endereco[100];
 
             printf("Digite o CPF (apenas números): ");
-            scanf("%d", &cpf);
-            limparBuffer();
-            if (!validarCPF((const char *)&cpf))
+            fgets(cpf, sizeof(cpf), stdin);
+            cpf[strcspn(cpf, "\n")] = '\0'; // Remover o caractere de nova linha
+            if (!validarCPF(cpf))
             {
                 exibirMensagem("CPF inválido. Certifique-se de digitar 11 números.", RED_COLOR);
                 break;
             }
-
+            limparBuffer();
             printf("Digite o nome: ");
             fgets(nome, sizeof(nome), stdin);
             nome[strcspn(nome, "\n")] = '\0';
@@ -640,11 +641,11 @@ int main()
             }
 
             printf("Digite o telefone (apenas números): ");
-            scanf("%d", &telefone);
-            limparBuffer();
+            fgets(telefone, sizeof(telefone), stdin);
+            telefone[strcspn(telefone, "\n")] = '\0'; // Remover o caractere de nova linha
             if (!validarTelefone((const char *)&telefone))
             {
-                exibirMensagem("Telefone inválido. Certifique-se de digitar pelo menos 8 números.", RED_COLOR);
+                exibirMensagem("Telefone inválido. Certifique-se de digitar pelo menos 11 números.", RED_COLOR);
                 break;
             }
 

@@ -108,25 +108,21 @@ Para criar um guia do usuário eficaz para um software de biblioteca digital, vo
 
 ### Guia do Usuário: Software da Biblioteca Digital
 
-Bem-vindo ao software da Biblioteca Digital! Este guia foi criado para ajudá-lo a aproveitar ao máximo nossa plataforma, facilitando o acesso a uma vasta gama de recursos educacionais e culturais. Siga os passos abaixo para começar:
+Bem-vindo ao software da Biblioteca Digital! Este guia foi criado para ajudá-lo a aproveitar ao máximo nosso software, facilitando o acesso a uma vasta gama de recursos educacionais e culturais. Siga os passos abaixo para começar:
 
 #### 1. *Login e Navegação Inicial*
 
-- *Login:* Utilize suas credenciais fornecidas para acessar a plataforma. Caso seja seu primeiro acesso, siga as instruções para criar uma conta.
+- *Login:* Utilize  o arquivo de credenciais fornecido para acessar a plataforma.
 
 - *Painel Principal:* Após o login, você será direcionado ao painel principal. Aqui você encontrará:
 
   - *Pesquisa:* Use a barra de pesquisa para encontrar livros, artigos, periódicos e outros materiais disponíveis na biblioteca digital.
-  
-  - *Categorias:* Explore os recursos por categorias como literatura, ciências, história, etc.
-  
-  - *Destaques:* Veja recomendações de materiais populares ou novidades adicionadas recentemente.
 
 #### 2. *Pesquisa e Descoberta de Conteúdo*
 
-- *Busca Avançada:* Para uma pesquisa mais detalhada, utilize filtros como autor, título, ano de publicação, etc.
+- *Busca Avançada:* Para uma pesquisa mais detalhada, utilize a busca por nome do livro desejado.
   
-- *Resultados da Pesquisa:* Clique nos resultados para visualizar detalhes do item, incluindo uma descrição, disponibilidade e opções de leitura ou download.
+- *Resultados da Pesquisa:* Clique nos resultados para visualizar detalhes do item, incluindo uma descrição e disponibilidade.
 
 #### 3. *Leitura e Acesso aos Recursos*
 
@@ -136,7 +132,7 @@ Bem-vindo ao software da Biblioteca Digital! Este guia foi criado para ajudá-lo
 
 #### 4. *Gerenciamento de Conta e Configurações*
 
-- *Perfil de Usuário:* Acesse seu perfil para atualizar suas informações pessoais, preferências de comunicação e senha.
+- *Perfil de Usuário:* Acesse seu perfil para atualizar suas informações pessoais e senha.
   
 - *Histórico de Empréstimos:* Visualize os materiais que você tem emprestados e suas datas de devolução.
 

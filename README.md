@@ -98,7 +98,7 @@ Os livros são liberados para devolução.
 
 ## Diagrama de atividades
 
-![Diagrama de Atividades](arquivos/diagrama_atividades.pdf)
+[Diagrama de Atividades](arquivos/diagrama_atividades.pdf)
 
 ## Guia do Usuário
 
@@ -106,7 +106,7 @@ Os livros são liberados para devolução.
 2- Após importado, o projeto estará pronto pra uso, cabendo ao usuário verificar a lista de usuários assim como suas devidas credenciais para acesso e login no sistema.
 3- O sistema apresenta inúmeras funções para gerenciamento de uma biblioteca física, tais como:
 
-![Diagrama de casos de uso](arquivos/diagrama_casos_de_uso.jpeg)
+![Diagrama de casos de uso](arquivos/usuario.jpeg)
 
 4- Para melhor uso do nosso sistema, certifique-se de estar inserindo valores válidos nos campos. Caso contrário, o sistema não permitirá a inserção desses valores.
 

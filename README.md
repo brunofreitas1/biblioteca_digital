@@ -102,12 +102,44 @@ Os livros são liberados para devolução.
 
 ## Guia do Usuário
 
-1- O software é de código aberto e está disponível para importação gratuita via github, assim como toda sua documentação.
-2- Após importado, o projeto estará pronto pra uso, cabendo ao usuário verificar a lista de usuários assim como suas devidas credenciais para acesso e login no sistema.
-3- O sistema apresenta inúmeras funções para gerenciamento de uma biblioteca física, tais como:
+Para criar um guia do usuário eficaz para um software de biblioteca digital, você pode seguir esta estrutura básica:
 
-![Diagrama de casos de uso](arquivos/usuario.jpeg)
+---
 
-4- Para melhor uso do nosso sistema, certifique-se de estar inserindo valores válidos nos campos. Caso contrário, o sistema não permitirá a inserção desses valores.
+### Guia do Usuário: Software da Biblioteca Digital
 
-5- Faça bom proveito!
+Bem-vindo ao software da Biblioteca Digital! Este guia foi criado para ajudá-lo a aproveitar ao máximo nossa plataforma, facilitando o acesso a uma vasta gama de recursos educacionais e culturais. Siga os passos abaixo para começar:
+
+#### 1. *Login e Navegação Inicial*
+
+- *Login:* Utilize suas credenciais fornecidas para acessar a plataforma. Caso seja seu primeiro acesso, siga as instruções para criar uma conta.
+
+- *Painel Principal:* Após o login, você será direcionado ao painel principal. Aqui você encontrará:
+
+  - *Pesquisa:* Use a barra de pesquisa para encontrar livros, artigos, periódicos e outros materiais disponíveis na biblioteca digital.
+  
+  - *Categorias:* Explore os recursos por categorias como literatura, ciências, história, etc.
+  
+  - *Destaques:* Veja recomendações de materiais populares ou novidades adicionadas recentemente.
+
+#### 2. *Pesquisa e Descoberta de Conteúdo*
+
+- *Busca Avançada:* Para uma pesquisa mais detalhada, utilize filtros como autor, título, ano de publicação, etc.
+  
+- *Resultados da Pesquisa:* Clique nos resultados para visualizar detalhes do item, incluindo uma descrição, disponibilidade e opções de leitura ou download.
+
+#### 3. *Leitura e Acesso aos Recursos*
+
+- *Visualização Online:* Para visualizar um livro ou artigo online, clique no botão "Visualizar". Use as ferramentas de zoom e navegação para explorar o conteúdo.
+  
+- *Download:* Para baixar um recurso, escolha o formato desejado (PDF, ePub, etc.) e clique em "Download". Siga as instruções para concluir o processo de download.
+
+#### 4. *Gerenciamento de Conta e Configurações*
+
+- *Perfil de Usuário:* Acesse seu perfil para atualizar suas informações pessoais, preferências de comunicação e senha.
+  
+- *Histórico de Empréstimos:* Visualize os materiais que você tem emprestados e suas datas de devolução.
+
+---
+
+Este guia do usuário deve ser claro, conciso e fácil de seguir, garantindo uma experiência agradável e produtiva ao utilizar o software da sua biblioteca digital.

@@ -235,7 +235,7 @@ void listarLivros()
     {
         sscanf(linha, "%d;%99[^;];%99[^;];%d;%d;%d\n",
                &livro.id, livro.titulo, livro.autor, &livro.anoPublicacao, &livro.classificacao, &livro.disponibilidade);
-        printf("ID: %d, Título: %s, Autor: %s, Ano de Publicacao: %d, Classificacao: %d, Disponibilidade: %d\n",
+        printf("ID: %d, Titulo: %s, Autor: %s, Ano de Publicacao: %d, Classificacao: %d, Disponibilidade: %d\n",
                livro.id, livro.titulo, livro.autor, livro.anoPublicacao, livro.classificacao, livro.disponibilidade);
     }
 

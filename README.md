@@ -98,5 +98,16 @@ Os livros são liberados para devolução.
 
 ## Diagrama de atividades
 
-![Diagrama de Atividades 1](arquivos/diagrama_atividades_1.jpeg)\
-![Diagrama de Atividades 2](arquivos/diagrama_atividades_2.jpeg)
+![Diagrama de Atividades](arquivos/diagrama_atividades.pdf)
+
+## Guia do Usuário
+
+1- O software é de código aberto e está disponível para importação gratuita via github, assim como toda sua documentação.
+2- Após importado, o projeto estará pronto pra uso, cabendo ao usuário verificar a lista de usuários assim como suas devidas credenciais para acesso e login no sistema.
+3- O sistema apresenta inúmeras funções para gerenciamento de uma biblioteca física, tais como:
+
+![Diagrama de casos de uso](arquivos/diagrama_casos_de_uso.jpeg)
+
+4- Para melhor uso do nosso sistema, certifique-se de estar inserindo valores válidos nos campos. Caso contrário, o sistema não permitirá a inserção desses valores.
+
+5- Faça bom proveito!
